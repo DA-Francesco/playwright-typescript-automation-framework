@@ -1,12 +1,12 @@
-import { test } from '../fixtures/testFixtures';
-import { loginData } from '../test-data/loginData';
+import { test } from "../fixtures/testFixtures";
+import { loginData } from "../test-data/loginData";
 
 /**
  * UiBank login test scenarios.
  */
-test.describe('UiBank Login', () => {
-  test('should successfully login to UiBank', async ({ loginPage }) => {
-    await loginPage.navigate();
+test.describe("UiBank Login", () => {
+  test("should successfully login to UiBank", async ({ loginPage }) => {
+    await loginPage.navigateTo("/");
 
     // Verify that the login page is displayed.
     await loginPage.verifyLoginPage();

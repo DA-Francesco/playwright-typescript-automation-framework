@@ -9,7 +9,7 @@ const password = process.env.UIBANK_PASSWORD;
 
 if (!username || !password) {
   throw new Error(
-    'UIBANK_USERNAME and UIBANK_PASSWORD environment variables must be configured.',
+    "UIBANK_USERNAME and UIBANK_PASSWORD environment variables must be configured.",
   );
 }
 

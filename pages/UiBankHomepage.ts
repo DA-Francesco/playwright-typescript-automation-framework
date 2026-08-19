@@ -1,25 +1,27 @@
-import { Page, Locator } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
+import { BasePage } from "./BasePage";
 
-export class UiBankHomepage {
-  readonly page: Page;
-  readonly getStartedButton: Locator;
+/**
+ * Page Object representing the UiBank home page.
+ *
+ * This class contains UiBank home-page-specific
+ * locators and actions.
+ *
+ * Common browser functionality is inherited from BasePage.
+ */
+export class UiBankHomepage extends BasePage {
+  // Home page elements
+  private readonly getStartedButton: Locator;
 
   constructor(page: Page) {
-    this.page = page;
+    super(page);
 
+    /**
+     * Get Started link available on the UiBank home page.
+     */
     this.getStartedButton = page.getByRole("link", {
       name: "Get started",
     });
-  }
-
-  /**
-   * Navigates to the application's home page.
-   *
-   * The base URL is configured in playwright.config.ts,
-   * keeping environment-specific URLs outside the Page Object.
-   */
-  async navigate(): Promise<void> {
-    await this.page.goto("/");
   }
 
   /**
@@ -27,22 +29,5 @@ export class UiBankHomepage {
    */
   async clickGetStarted(): Promise<void> {
     await this.getStartedButton.click();
-  }
-
-  /**
-   * Returns the current page title.
-   *
-   * Keeping this interaction inside the Page Object allows
-   * tests to avoid directly depending on the Playwright page object.
-   */
-  async getPageTitle(): Promise<string> {
-    return this.page.title();
-  }
-
-  /**
-   * Returns the current URL.
-   */
-  getCurrentUrl(): string {
-    return this.page.url();
   }
 }

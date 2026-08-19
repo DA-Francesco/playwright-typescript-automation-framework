@@ -24,15 +24,15 @@ export interface EnvironmentConfig {
  */
 const environments: Record<Environment, EnvironmentConfig> = {
   dev: {
-    baseURL: 'https://uibank.uipath.com',
+    baseURL: "https://uibank.uipath.com",
   },
 
   qa: {
-    baseURL: 'https://uibank.uipath.com',
+    baseURL: "https://uibank.uipath.com",
   },
 
   uat: {
-    baseURL: 'https://uibank.uipath.com',
+    baseURL: "https://uibank.uipath.com",
   },
 };
 

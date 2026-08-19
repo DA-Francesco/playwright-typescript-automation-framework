@@ -1,4 +1,5 @@
-import { expect, Locator, Page } from '@playwright/test';
+import { expect, Locator, Page } from "@playwright/test";
+import { BasePage } from "./BasePage";
 
 /**
  * Page Object representing the UiBank login page.
@@ -6,58 +7,46 @@ import { expect, Locator, Page } from '@playwright/test';
  * This class contains:
  * - Login page locators
  * - Login-related actions
+ * - Login page validations
  *
- * Keeping these details here prevents test cases from
- * directly interacting with UI elements.
+ * Common browser functionality is inherited from BasePage.
  */
-export class LoginPage {
-  private readonly page: Page;
-
+export class LoginPage extends BasePage {
   // Login page elements
   private readonly usernameInput: Locator;
   private readonly passwordInput: Locator;
   private readonly loginButton: Locator;
 
   constructor(page: Page) {
-    this.page = page;
+    super(page);
 
     /**
      * Username field.
      *
      * The ID is stable and explicitly provided by the application.
      */
-    this.usernameInput = page.locator('#username');
+    this.usernameInput = page.locator("#username");
 
     /**
      * Password field.
      */
-    this.passwordInput = page.locator('#password');
+    this.passwordInput = page.locator("#password");
 
     /**
      * Login button.
-     *
-     * The button is identified by its submit type.
      */
-    this.loginButton = page.locator('text=Sign In');
-   
-
+    this.loginButton = page.locator("text=Sign In");
   }
 
   /**
-   * Navigates to the UiBank login page.
+   * Verifies that the UiBank login page is displayed.
+   *
+   * This checks the page title to confirm that navigation
+   * reached the expected UiBank application.
    */
-  async navigate(): Promise<void> {
-    await this.page.goto('/');
+  async verifyLoginPage(): Promise<void> {
+    await expect(this.page).toHaveTitle("UiBank-Welcome");
   }
-  /**
- * Verifies that the UiBank login page is displayed.
- *
- * This checks the page title to confirm that navigation
- * reached the expected UiBank application.
- */
-async verifyLoginPage(): Promise<void> {
-  await expect(this.page).toHaveTitle('UiBank-Welcome');
-}
 
   /**
    * Enters the username.
@@ -93,13 +82,16 @@ async verifyLoginPage(): Promise<void> {
   }
 
   /**
- * Verifies that the user has successfully logged in.
- *
- * UiBank redirects authenticated users to the accounts page
- * and displays the "Welcome!" heading.
- */
-async verifySuccessfulLogin(): Promise<void> {
-  await expect(this.page).toHaveURL('https://uibank.uipath.com/accounts');
-  await expect(this.page.getByRole('heading', { name: 'Welcome!' })).toBeVisible();
-}
+   * Verifies that the user has successfully logged in.
+   *
+   * UiBank redirects authenticated users to the accounts page
+   * and displays the "Welcome!" heading.
+   */
+  async verifySuccessfulLogin(): Promise<void> {
+    await expect(this.page).toHaveURL("https://uibank.uipath.com/accounts");
+
+    await expect(
+      this.page.getByRole("heading", { name: "Welcome!" }),
+    ).toBeVisible();
+  }
 }

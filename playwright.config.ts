@@ -1,6 +1,6 @@
 import { defineConfig, devices } from "@playwright/test";
 import { getEnvironmentConfig } from "./config/environment";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 
 dotenv.config();
 

@@ -1,6 +1,6 @@
-import { test as base } from '@playwright/test';
-import { LoginPage } from '../pages/LoginPage';
-import { UiBankHomepage } from '../pages/UiBankHomepage';
+import { test as base } from "@playwright/test";
+import { LoginPage } from "../pages/LoginPage";
+import { UiBankHomepage } from "../pages/UiBankHomepage";
 
 /**
  * Defines the custom fixtures available to our tests.
@@ -36,4 +36,4 @@ export const test = base.extend<TestFixtures>({
 /**
  * Re-export Playwright's expect function.
  */
-export { expect } from '@playwright/test';
+export { expect } from "@playwright/test";
