@@ -16,23 +16,23 @@ export interface EnvironmentConfig {
 /**
  * Environment-specific application configuration.
  *
- * These URLs currently point to Playwright's public website
- * because we are using it as our practice application.
+ * The same public Automation Exercise application is currently
+ * used for DEV, QA, and UAT because this is a practice framework.
  *
- * In a real project, these values would point to the
- * organization's DEV, QA, and UAT environments.
+ * In a real project, each environment would have its own
+ * application URL.
  */
 const environments: Record<Environment, EnvironmentConfig> = {
   dev: {
-    baseURL: "https://uibank.uipath.com",
+    baseURL: "https://www.automationexercise.com/",
   },
 
   qa: {
-    baseURL: "https://uibank.uipath.com",
+    baseURL: "https://www.automationexercise.com/",
   },
 
   uat: {
-    baseURL: "https://uibank.uipath.com",
+    baseURL: "https://www.automationexercise.com/",
   },
 };
 

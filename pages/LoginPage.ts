@@ -2,96 +2,98 @@ import { expect, Locator, Page } from "@playwright/test";
 import { BasePage } from "./BasePage";
 
 /**
- * Page Object representing the UiBank login page.
+ * Page Object representing the Automation Exercise Login page.
  *
- * This class contains:
- * - Login page locators
- * - Login-related actions
- * - Login page validations
+ * Responsibilities:
+ * - Verify the Login page
+ * - Enter login credentials
+ * - Authenticate the user
+ * - Verify successful login
+ * - Delete the logged-in user's account
+ * - Verify account deletion
  *
  * Common browser functionality is inherited from BasePage.
  */
 export class LoginPage extends BasePage {
   // Login page elements
-  private readonly usernameInput: Locator;
+  private readonly loginHeading: Locator;
+  private readonly emailInput: Locator;
   private readonly passwordInput: Locator;
   private readonly loginButton: Locator;
 
+  // Account management elements
+  private readonly deleteAccountButton: Locator;
+  private readonly accountDeletedMessage: Locator;
+
+  /**
+   * Initializes the Login page locators.
+   *
+   * @param page Playwright Page instance used to interact with the browser.
+   */
   constructor(page: Page) {
     super(page);
 
-    /**
-     * Username field.
-     *
-     * The ID is stable and explicitly provided by the application.
-     */
-    this.usernameInput = page.locator("#username");
+    this.loginHeading = page.getByRole("heading", {
+      name: "Login to your account",
+    });
 
-    /**
-     * Password field.
-     */
-    this.passwordInput = page.locator("#password");
+    this.emailInput = page.locator('[data-qa="login-email"]');
 
-    /**
-     * Login button.
-     */
-    this.loginButton = page.locator("text=Sign In");
+    this.passwordInput = page.locator('[data-qa="login-password"]');
+
+    this.loginButton = page.locator('[data-qa="login-button"]');
+
+    this.deleteAccountButton = page.getByRole("link", {
+      name: "Delete Account",
+    });
+
+    this.accountDeletedMessage = page.getByText("ACCOUNT DELETED!");
   }
 
   /**
-   * Verifies that the UiBank login page is displayed.
+   * Verifies that the Login page is displayed.
+   */
+  async verifyLoginPageIsVisible(): Promise<void> {
+    await expect(this.loginHeading).toBeVisible();
+  }
+
+  /**
+   * Authenticates the user using the supplied credentials.
    *
-   * This checks the page title to confirm that navigation
-   * reached the expected UiBank application.
+   * @param email Registered user email address.
+   * @param password Registered user password.
    */
-  async verifyLoginPage(): Promise<void> {
-    await expect(this.page).toHaveTitle("UiBank-Welcome");
-  }
-
-  /**
-   * Enters the username.
-   */
-  async enterUsername(username: string): Promise<void> {
-    await this.usernameInput.fill(username);
-  }
-
-  /**
-   * Enters the password.
-   */
-  async enterPassword(password: string): Promise<void> {
+  async login(email: string, password: string): Promise<void> {
+    await this.emailInput.fill(email);
     await this.passwordInput.fill(password);
-  }
-
-  /**
-   * Clicks the login button.
-   */
-  async clickLogin(): Promise<void> {
     await this.loginButton.click();
-  }
-
-  /**
-   * Performs the complete login operation.
-   *
-   * This method combines the individual login actions
-   * into one reusable business-level operation.
-   */
-  async login(username: string, password: string): Promise<void> {
-    await this.enterUsername(username);
-    await this.enterPassword(password);
-    await this.clickLogin();
   }
 
   /**
    * Verifies that the user has successfully logged in.
    *
-   * UiBank redirects authenticated users to the accounts page
-   * and displays the "Welcome!" heading.
+   * @param username Expected username displayed after successful authentication.
    */
-  async verifySuccessfulLogin(): Promise<void> {
-    await expect(this.page).toHaveURL("https://uibank.uipath.com/accounts");
+  async verifySuccessfulLogin(username: string): Promise<void> {
+    const loggedInUser = this.page.getByText(
+      `Logged in as ${username}`,
+      { exact: false }
+    );
 
-    await expect(
-      this.page.getByRole("heading", { name: "Welcome!" }),
-    ).toBeVisible();
+    await expect(loggedInUser).toBeVisible();
+  }
+
+  /**
+   * Deletes the currently logged-in user's account.
+   */
+  async deleteAccount(): Promise<void> {
+    await this.deleteAccountButton.click();
+  }
+
+  /**
+   * Verifies that the account deletion confirmation is displayed.
+   */
+  async verifyAccountDeleted(): Promise<void> {
+    await expect(this.accountDeletedMessage).toBeVisible();
   }
 }
