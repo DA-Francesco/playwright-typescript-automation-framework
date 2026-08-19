@@ -945,3 +945,7 @@ That separation is what allows the framework to remain **readable, maintainable,
 ## 🎯 One-Line Definition
 
 > **A Playwright TypeScript automation framework that uses POM, fixtures, reusable abstractions, externalized configuration, diagnostics, and CI/CD to build maintainable and scalable UI automation.**
+
+
+🤖 AI-Assisted Development
+This framework was built from scratch with the assistance of ChatGPT for learning, architectural discussions, debugging, code review, and exploring Playwright/TypeScript best practices. The framework structure, implementation decisions, testing approach, and final validation were reviewed and understood during development.
