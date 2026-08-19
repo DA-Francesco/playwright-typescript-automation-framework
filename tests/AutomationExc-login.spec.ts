@@ -1,4 +1,4 @@
-import { test } from "../fixtures/testfixtures";
+import { test } from "../fixtures/testFixtures";
 import { validLoginData } from "../test-data/loginData";
 
 /**

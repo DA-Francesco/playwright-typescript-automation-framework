@@ -1,4 +1,4 @@
-import { test } from "../fixtures/testfixtures";
+import { test } from "../fixtures/testFixtures";
 
 /**
  * Test suite covering Automation Exercise homepage scenarios.
